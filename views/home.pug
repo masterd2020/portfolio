@@ -1,0 +1,86 @@
+doctype html
+html
+  head
+    meta(name="viewport", content="width=device-width")
+    link(rel="stylesheet", href="/css/style.css")
+    link(link rel="shortcut icon" type="image/png" href="/img/masterd.jpg" )
+    script(src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js')
+    link(href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet')
+    
+  body
+    .container
+      .header
+        .header__container
+          .profile__header
+            profile__header--image
+              img.profile__image(src=`/img/users/${user.image}` alt=`${user.name} photo`)
+            .profile__name Hi, my name is 
+              span.inline__name= user.name
+            .bio= user.shortBio
+      .skills__section
+        .skill__header Skills Overview
+        .skill__description= user.skillsOverview
+        .skills__container
+          .main__skills
+            .main__skills--header Main Skills
+            .main__skills--content
+              each mainskill in user.mainSkills
+                .mainskill.g= mainskill
+            
+          .others__skills
+            .others__skills--header Other Skills
+            .others__skills--content
+              each otherskill in user.otherSkills
+                .otherskill.g= otherskill
+              
+      .portfolio
+        .portfolio__header Featured Project
+        .projects
+          each project in user.projects
+            .projects__container
+              .projects__content
+                each image, i in project.projectImages
+                  img.q(src=`/img/users/${image}`, alt=`image ${i + 1}`)
+              .projects__footer
+                .built__with
+                  each hello in project.projectBuiltWith
+                    p.bw= hello
+                  
+                .projects__link
+                  a(href=`${project.projectLink}` target="_blank")= project.projectName
+              .projects__container--description
+                .description__header= project.projectTitle
+                
+                //- let rdta = project.projectDescription.replace(/{s}/gi, `<span class='inline__style'>`)
+                //- rdta = rdta.replace(/{e}/gi, "</span>")
+                .description__content= project.projectDescription
+      .contact__me
+        .contact__me--header Get in Touch
+          .contact__me--content
+            .contact__header--image
+              img.contact__me--image(src=`/img/users/${user.image}`, alt=`${user.name}`)
+            .contact__me--text= user.contactStatus
+            .contact__me--profile
+              svg.icon
+                use(xlink:href='/img/icons.svg#icon-mail')
+              p.contact__me--temp= user.contactEmail
+              svg.icon
+                use(xlink:href='/img/icons.svg#icon-map')
+              p.contact__me--temp= user.contactAddress
+              svg.icon
+                use(xlink:href='/img/icons.svg#icon-phone')
+              p.contact__me--temp= user.contactNumber
+            .social__media
+              a(href=`${user.facebookLink}` target="_blank")
+                svg.icon
+                  use(xlink:href='/img/icons.svg#icon-facebook')
+              a(href=`${user.linkedinLink}` target="_blank")
+                svg.icon
+                  use(xlink:href='/img/icons.svg#icon-linkedin')
+              a(href=`${user.githubLink}` target="_blank")
+                svg.icon
+                  use(xlink:href='/img/icons.svg#icon-github')
+      #map(data-location=`${JSON.stringify(user.location)}`)
+      .footer © Fasasi Toheeb 
+    script(src="/js/map.js")
+    script(src="/js/interact.js")
